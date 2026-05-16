@@ -44,9 +44,9 @@ cmake --install build
 ### Arch Linux (AUR)
 
 ```bash
-yay -S piperdc-bin
+yay -S piperdc
 # or
-paru -S piperdc-bin
+paru -S piperdc
 ```
 
 ### Debian/Ubuntu (.deb)
