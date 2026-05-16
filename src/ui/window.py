@@ -229,6 +229,7 @@ class PipeRDCWindow(Adw.ApplicationWindow):
             scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
             page = self.tab_view.add_page(scroll)
             page.set_title(title)
+            page.set_property("pinned", True)
 
     def _make_group(self, title):
         return Adw.PreferencesGroup(title=title)
