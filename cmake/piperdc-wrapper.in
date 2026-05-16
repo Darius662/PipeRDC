@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec "@PIPERDC_PYTHON_EXECUTABLE@" "${CMAKE_INSTALL_PREFIX}/share/piperdc/__main__.py" "$@"

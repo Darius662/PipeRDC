@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=PipeRDC
+Comment=RDP Connection Manager for Linux
+Exec=piperdc
+Icon=piperdc
+Terminal=false
+Categories=Network;RemoteAccess;GTK;
+Keywords=rdp;remote;desktop;connection;
+StartupNotify=true

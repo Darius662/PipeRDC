@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec "/usr/bin/python3.14" "${CMAKE_INSTALL_PREFIX}/share/piperdc/__main__.py" "$@"

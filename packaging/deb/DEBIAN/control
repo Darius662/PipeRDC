@@ -1,0 +1,20 @@
+Package: piperdc
+Version: 1.0.0
+Section: net
+Priority: optional
+Architecture: all
+Depends: python3 (>= 3.10), python3-gi (>= 3.48), gir1.2-gtk-4.0, gir1.2-adw-1, freerdp3, python3-secretstorage
+Maintainer: Your Name <your.email@example.com>
+Description: A modern RDP Connection Manager for Linux
+ PipeRDC is a modern, native RDP connection manager for Linux.
+ It provides a clean GTK4 interface to manage and launch
+ Remote Desktop connections using xfreerdp3.
+ .
+ Features:
+  - Connection management with groups/folders
+  - Search and filter connections
+  - Secure credential storage via keyring
+  - .rdp file import
+  - Export launchable shell scripts
+  - Multi-monitor support
+  - Audio redirection and microphone support

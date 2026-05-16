@@ -1,0 +1,17 @@
+/home/dariusjeleru/.local/bin/piperdc
+/home/dariusjeleru/.local/share/piperdc/ui/__init__.py
+/home/dariusjeleru/.local/share/piperdc/ui/connection_dialog.py
+/home/dariusjeleru/.local/share/piperdc/ui/window.py
+/home/dariusjeleru/.local/share/piperdc/models/__init__.py
+/home/dariusjeleru/.local/share/piperdc/models/connection.py
+/home/dariusjeleru/.local/share/piperdc/services/__init__.py
+/home/dariusjeleru/.local/share/piperdc/services/config_manager.py
+/home/dariusjeleru/.local/share/piperdc/services/credential_manager.py
+/home/dariusjeleru/.local/share/piperdc/services/rdp_launcher.py
+/home/dariusjeleru/.local/share/piperdc/utils/__init__.py
+/home/dariusjeleru/.local/share/piperdc/utils/rdp_parser.py
+/home/dariusjeleru/.local/share/piperdc/__init__.py
+/home/dariusjeleru/.local/share/piperdc/__main__.py
+/home/dariusjeleru/.local/share/piperdc/main.py
+/home/dariusjeleru/.local/share/applications/piperdc.desktop
+/home/dariusjeleru/.local/share/icons/hicolor/scalable/apps/piperdc.svg

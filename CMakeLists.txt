@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.16)
+project(PipeRDC VERSION 1.0 LANGUAGES C)
+
+include(GNUInstallDirs)
+
+find_package(Python3 3.10 COMPONENTS Interpreter REQUIRED)
+
+set(PIPERDC_PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
+set(PIPERDC_DATA_DIR ${CMAKE_INSTALL_DATAROOTDIR}/piperdc)
+set(PIPERDC_DESKTOP_FILE piperdc.desktop)
+set(PIPERDC_ICON_FILE icons/piperdc.svg)
+
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/piperdc-wrapper.in
+  ${CMAKE_CURRENT_BINARY_DIR}/piperdc
+  @ONLY
+)
+
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/piperdc DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/ DESTINATION ${PIPERDC_DATA_DIR}
+        FILES_MATCHING PATTERN "*.py"
+        PATTERN "__pycache__" EXCLUDE)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/${PIPERDC_DESKTOP_FILE}
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/${PIPERDC_ICON_FILE}
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps)
