@@ -111,6 +111,7 @@ class PipeRDCWindow(Adw.ApplicationWindow):
         menu_btn.set_menu_model(menu_model)
         header.pack_end(menu_btn)
         self._setup_actions()
+        self._load_css()
 
         # === Quick Connect Bar ===
         qc_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6,
@@ -201,6 +202,29 @@ class PipeRDCWindow(Adw.ApplicationWindow):
 
         self._build_tabs()
 
+    def _load_css(self):
+        css = b"""
+        button.tab-close-button {
+            opacity: 0;
+            min-width: 0;
+            min-height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: transparent;
+        }
+        button.tab-close-button image {
+            opacity: 0;
+        }
+        """
+        provider = Gtk.CssProvider()
+        provider.load_from_data(css)
+        Gtk.StyleContext.add_provider_for_display(
+            self.get_display(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+        )
+
     def _setup_actions(self):
         actions = [
             ("export_scripts", self._on_export_all_scripts),
@@ -229,7 +253,6 @@ class PipeRDCWindow(Adw.ApplicationWindow):
             scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
             page = self.tab_view.add_page(scroll)
             page.set_title(title)
-            page.set_property("pinned", True)
 
     def _make_group(self, title):
         return Adw.PreferencesGroup(title=title)
