@@ -5,6 +5,7 @@ import subprocess
 from pathlib import Path
 from gi.repository import Gtk, Adw, GLib, Gio, Gdk, Pango
 
+from src.ui.monitor_selector import MonitorSelectionWidget
 from src.models.connection import RDPConnection
 from src.services.config_manager import (
     load_connections, save_connections, save_script, delete_connection_script,
@@ -32,6 +33,7 @@ class SettingsTab:
         self.spin_height = None
         self.switch_multimon = None
         self.entry_monitors = None
+        self.monitors_selector = None
         self.spin_bpp = None
 
         # Security
@@ -288,6 +290,11 @@ class PipeRDCWindow(Adw.ApplicationWindow):
         group.add(row)
         return row
 
+    def _add_monitor_selector(self, group, title):
+        selector = MonitorSelectionWidget(title=title)
+        group.add(selector)
+        return selector
+
     # ---- Tab Builders ----
 
     def _build_general_tab(self):
@@ -340,7 +347,11 @@ class PipeRDCWindow(Adw.ApplicationWindow):
         s.spin_width = self._add_spin(g, "Custom Width", 1920, 640, 7680)
         s.spin_height = self._add_spin(g, "Custom Height", 1080, 480, 4320)
         s.switch_multimon = self._add_switch(g, "Use Multiple Monitors")
-        s.entry_monitors = self._add_entry(g, "Monitor IDs")
+        s.monitors_selector = self._add_monitor_selector(g, "Select Monitors")
+        s.switch_multimon.connect(
+            "notify::active",
+            lambda switch, ps: s.monitors_selector.set_sensitive(switch.get_active()),
+        )
 
         g2 = self._make_group("Color")
         box.append(g2)
@@ -599,7 +610,9 @@ class PipeRDCWindow(Adw.ApplicationWindow):
         s.spin_width.set_value(conn.custom_width)
         s.spin_height.set_value(conn.custom_height)
         s.switch_multimon.set_active(conn.use_multimon)
-        s.entry_monitors.set_text(conn.monitors)
+        if s.monitors_selector:
+            s.monitors_selector.set_selected_ids(conn.monitors)
+            s.monitors_selector.set_sensitive(conn.use_multimon)
         s.spin_bpp.set_value(conn.bpp)
 
         # Security
@@ -676,7 +689,8 @@ class PipeRDCWindow(Adw.ApplicationWindow):
             custom_width=int(s.spin_width.get_value()),
             custom_height=int(s.spin_height.get_value()),
             use_multimon=s.switch_multimon.get_active(),
-            monitors=s.entry_monitors.get_text().strip(),
+            monitors=(s.monitors_selector.get_selected_ids_safe() if s.monitors_selector
+                      else s.entry_monitors.get_text().strip()),
             bpp=int(s.spin_bpp.get_value()),
             # Security
             cert_behavior=cert_ops[s.combo_cert.get_selected()],

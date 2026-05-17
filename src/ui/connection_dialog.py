@@ -1,6 +1,7 @@
 """Connection add/edit dialog for PipeRDC."""
 
 from gi.repository import Gtk, Adw, GLib, GObject
+from src.ui.monitor_selector import MonitorSelectionWidget
 
 
 class ConnectionDialog(Adw.Dialog):
@@ -80,7 +81,11 @@ class ConnectionDialog(Adw.Dialog):
         self.spin_width = self._add_spin_row(group3, "Custom Width", 1920, 640, 7680)
         self.spin_height = self._add_spin_row(group3, "Custom Height", 1080, 480, 4320)
         self.switch_multimon = self._add_switch_row(group3, "Multi-monitor")
-        self.entry_monitors = self._add_entry_row(group3, "Monitors", "0,1,2")
+        self.monitors_selector = self._add_monitor_selector_row(group3, "Select Monitors")
+        self.switch_multimon.connect(
+            "notify::active",
+            lambda switch, ps: self.monitors_selector.set_sensitive(switch.get_active()),
+        )
 
         # --- Audio Section ---
         group4 = Adw.PreferencesGroup(title="Audio & Devices")
@@ -151,6 +156,11 @@ class ConnectionDialog(Adw.Dialog):
         group.add(row)
         return row
 
+    def _add_monitor_selector_row(self, group, title):
+        selector = MonitorSelectionWidget(title=title)
+        group.add(selector)
+        return selector
+
     def _populate_from_connection(self, conn):
         """Populate dialog fields from an existing connection."""
         self.entry_name.set_text(conn.name)
@@ -169,7 +179,9 @@ class ConnectionDialog(Adw.Dialog):
         self.spin_width.set_value(conn.custom_width)
         self.spin_height.set_value(conn.custom_height)
         self.switch_multimon.set_active(conn.use_multimon)
-        self.entry_monitors.set_text(conn.monitors)
+        if self.monitors_selector:
+            self.monitors_selector.set_selected_ids(conn.monitors)
+            self.monitors_selector.set_sensitive(conn.use_multimon)
 
         audio_options = ["redirect", "play", "record", "none"]
         if conn.audio_mode in audio_options:
@@ -221,7 +233,8 @@ class ConnectionDialog(Adw.Dialog):
             custom_width=int(self.spin_width.get_value()),
             custom_height=int(self.spin_height.get_value()),
             use_multimon=self.switch_multimon.get_active(),
-            monitors=self.entry_monitors.get_text().strip(),
+            monitors=(self.monitors_selector.get_selected_ids_safe()
+                      if self.monitors_selector else ""),
             audio_mode=audio_options[self.combo_audio.get_selected()],
             enable_mic=self.switch_mic.get_active(),
             enable_drive=self.switch_drive.get_active(),
