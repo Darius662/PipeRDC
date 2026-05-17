@@ -23,7 +23,7 @@ class RDPConnection:
     custom_width: int = 1920
     custom_height: int = 1080
     use_multimon: bool = False
-    monitors: str = "0,1,2"
+    monitors: str = ""
     audio_mode: str = "redirect"
     enable_mic: bool = False
     enable_drive: bool = True
@@ -74,6 +74,21 @@ class RDPConnection:
         """Create from dictionary with ID."""
         return cls(id=conn_id, **data)
 
+    def _normalize_monitors(self) -> str:
+        """Normalize a monitor index list into a clean comma-separated string."""
+        if not self.monitors:
+            return ""
+        normalized = []
+        for part in str(self.monitors).split(","):
+            part = part.strip()
+            if not part:
+                continue
+            try:
+                normalized.append(str(int(part)))
+            except ValueError:
+                continue
+        return ",".join(sorted(set(normalized), key=int))
+
     def build_xfreerdp_args(self) -> list[str]:
         """Build xfreerdp3 command-line arguments."""
         args = [self.client, f"/v:{self.host}:{self.port}"]
@@ -100,7 +115,9 @@ class RDPConnection:
         # Multimonitor
         if self.use_multimon:
             args.append("/multimon")
-            args.append(f"/monitors:{self.monitors}")
+            monitors = self._normalize_monitors()
+            if monitors:
+                args.append(f"/monitors:{monitors}")
 
         # Floatbar
         if self.floatbar:
@@ -237,7 +254,9 @@ class RDPConnection:
 
         if self.use_multimon:
             flag_lines.append("/multimon")
-            flag_lines.append(f"/monitors:{self.monitors}")
+            monitors = self._normalize_monitors()
+            if monitors:
+                flag_lines.append(f"/monitors:{monitors}")
 
         if self.floatbar:
             flag_lines.append("/floatbar:sticky:on,default:visible,show:always")
