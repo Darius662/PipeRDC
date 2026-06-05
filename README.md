@@ -70,6 +70,15 @@ make build-arch
 sudo pacman -U dist/piperdc-1.0.0-1-x86_64.pkg.tar.zst
 ```
 
+### Flatpak
+
+```bash
+flatpak-builder --force-clean build-dir flatpak/org.piperdc.PipeRDC.yml
+flatpak install build-dir org.piperdc.PipeRDC
+```
+
+For Flathub submission, the manifest is in `flatpak/org.piperdc.PipeRDC.yml` and AppStream metadata is in `flatpak/org.piperdc.PipeRDC.appdata.xml`.
+
 ## Dependencies
 
 | Dependency | Purpose |

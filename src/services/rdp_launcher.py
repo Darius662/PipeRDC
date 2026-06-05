@@ -45,6 +45,9 @@ class RDPLauncher:
         """
         args = connection.build_xfreerdp_args()
 
+        if self._is_flatpak() and args:
+            args = ["flatpak-spawn", "--host"] + args
+
         # Check if client exists
         client_path = connection.client
         if not os.path.exists(client_path) and not any(
@@ -54,6 +57,10 @@ class RDPLauncher:
         ):
             # Try without path resolution - subprocess will handle it
             pass
+
+    @staticmethod
+    def _is_flatpak() -> bool:
+        return bool(os.environ.get("FLATPAK_SANDBOX_DIR") or os.environ.get("FLATPAK_ID"))
 
         try:
             process = subprocess.Popen(

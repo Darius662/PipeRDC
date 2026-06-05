@@ -1,0 +1,28 @@
+app-id: org.piperdc.PipeRDC
+runtime: org.gnome.Platform
+runtime-version: '44'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.python3
+command: piperdc
+finish-args:
+  - --share=network
+  - --socket=wayland
+  - --socket=x11
+  - --socket=pulseaudio
+  - --share=ipc
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=org.freedesktop.SecretPortal
+  - --filesystem=home
+  - --filesystem=xdg-run/keyrings
+modules:
+  - name: piperdc
+    buildsystem: simple
+    build-commands:
+      - python3 -m pip install --no-deps --no-build-isolation --prefix=/app .
+      - install -Dm644 data/piperdc.desktop /app/share/applications/org.piperdc.PipeRDC.desktop
+      - install -Dm644 data/icons/piperdc.svg /app/share/icons/hicolor/scalable/apps/org.piperdc.PipeRDC.svg
+    sources:
+      - type: archive
+        url: https://github.com/Darius662/PipeRDC/archive/v1.0.0.tar.gz
+        sha256: 4ed6b07c5cc7835db43a2d41e80c547f93c3ebdef2a3467c8ccbe9077be79ada
