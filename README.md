@@ -77,7 +77,13 @@ flatpak-builder --force-clean build-dir flatpak/org.piperdc.PipeRDC.yml
 flatpak install build-dir org.piperdc.PipeRDC
 ```
 
-For Flathub submission, the manifest is in `flatpak/org.piperdc.PipeRDC.yml` and AppStream metadata is in `flatpak/org.piperdc.PipeRDC.appdata.xml`.
+For Flathub submission, the canonical packaging files are now in `pkg/flathub/`:
+- `pkg/flathub/org.piperdc.PipeRDC.yml`
+- `pkg/flathub/org.piperdc.PipeRDC.appdata.xml`
+
+The `flatpak/` directory remains the working build environment, while `pkg/flathub/` contains the Flathub-ready manifest/appdata.
+
+If you keep packaging in the repository, merge `pkg/flathub` into `main` so the Flathub files stay with the project.
 
 ## Dependencies
 
