@@ -87,7 +87,7 @@ For Flathub submission, the manifest is in `flatpak/org.piperdc.PipeRDC.yml` and
 | `gtk4` | GUI toolkit |
 | `libadwaita` | Modern GNOME widgets |
 | `python-gobject` | GTK4 Python bindings |
-| `freerdp` (`xfreerdp3`) | RDP protocol client |
+| `freerdp` (`xfreerdp` / `xfreerdp3`) | RDP protocol client |
 | `python-secretstorage` | Keyring credential storage |
 
 ## Usage
@@ -102,7 +102,7 @@ For Flathub submission, the manifest is in `flatpak/org.piperdc.PipeRDC.yml` and
 
 ### Script Export
 
-Each connection can export a standalone `.sh` script that runs `xfreerdp3` with all configured options:
+Each connection can export a standalone `.sh` script that runs `xfreerdp` or `xfreerdp3` with all configured options:
 
 ```bash
 ~/.config/piperdc/scripts/My_Windows_VM.sh

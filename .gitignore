@@ -68,3 +68,17 @@ Makefile
 *.dSYM/
 .Spotlight-V100
 .Trashes
+
+# Flatpak / Flathub build artifacts
+flatpak/build/
+flatpak/repo/
+flatpak/export/
+flatpak/files/
+flatpak/var/
+flatpak/tmp/
+flatpak/*.flatpak
+flatpak/*.flatpakref
+.flatpak-builder/
+*.flatpak
+*.flatpakref
+repo/
